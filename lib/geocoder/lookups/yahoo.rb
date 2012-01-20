@@ -11,7 +11,7 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def results(query, reverse = false)
-      return [] unless doc = fetch_data(query, reverse)
+      return [] unless !loopback_address?(query) && doc = fetch_data(query, reverse)
       if doc = doc['ResultSet'] and doc['Error'] == 0
         return doc['Found'] > 0 ? doc['Results'] : []
       else
